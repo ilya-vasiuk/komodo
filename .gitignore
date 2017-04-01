@@ -1,0 +1,5 @@
+# IDE and Build system
+# related files
+buils
+.idea
+.gradle
