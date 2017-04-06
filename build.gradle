@@ -1,14 +1,11 @@
-group "by.heap.komodo"
-version "0.1.0"
+setGroup("by.heap.komodo")
+setVersion("0.1.0")
 
 buildscript {
-
     ext {
         kotlinVersion = "1.1.1"
-        bootiqueVersion = "0.21"
-        gradleVersion = "3.4"
-        junitVersion = "5.0.0-M3"
-        junitPlatformVersion = "1.0.0-M3"
+        junitVersion = "5.0.0-M4"
+        junitPlatformVersion = "1.0.0-M4"
     }
     repositories {
         jcenter()
@@ -23,24 +20,25 @@ buildscript {
     }
 }
 
-apply plugin: "kotlin"
-apply plugin: "org.junit.platform.gradle.plugin"
+subprojects {
+    apply plugin: "kotlin"
+    apply plugin: "org.junit.platform.gradle.plugin"
 
-kotlin {
-    experimental {
-        coroutines "enable"
+    repositories {
+        jcenter()
+        maven {
+            setUrl("http://repo.spring.io/milestone/")
+        }
     }
-}
 
-repositories {
-    jcenter()
-}
+    dependencies {
+        compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+        compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+        compile("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion")
+        compile("org.springframework:spring-context:5.0.0.M5")
 
-dependencies {
-    compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-    compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-
-   testCompile("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+        testCompile("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    }
 }
 
 task wrapper(type: Wrapper) {
