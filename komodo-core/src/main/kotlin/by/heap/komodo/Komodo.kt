@@ -1,9 +1,12 @@
 package by.heap.komodo
 
+import by.heap.komodo.args.Args
+import by.heap.komodo.command.CommandExecutor
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
 
+// kmd?
 fun komodo(builder: Komodo.() -> Unit): Komodo {
     return Komodo().apply {
         builder(this)
@@ -13,15 +16,21 @@ fun komodo(builder: Komodo.() -> Unit): Komodo {
 
 class Komodo {
     private val modules = mutableListOf<KClass<out Module>>()
-    private val binder = KomodoBinder()
+    private val binder = SpringBinder()
+    private val args = mutableListOf<String>()
 
     fun module(module: KClass<out Module>): Komodo {
         this.modules += module
         return this
     }
 
-    fun command(callback: (KomodoBinder) -> Unit) {
+    fun command(callback: (Binder) -> Unit) {
         callback(binder)
+    }
+
+    fun args(args: Array<String>): Komodo {
+        this.args.addAll(args)
+        return this
     }
 
     fun run() {
@@ -30,45 +39,14 @@ class Komodo {
             .map { it.createInstance() }
             .onEach { it.configure(binder) }
 
+        binder.start()
+
+        val args = binder.getBean(Args::class)
+        val commandExecutor = binder.getBean(CommandExecutor::class)
+        commandExecutor.execute(args.getCommand(this.args))
+
         println("Started!")
     }
-}
-
-
-
-fun main(args: Array<String>) {
-    val k = komodo {
-        module(TestModule1::class)
-    }
-
-    k.command ({ it.getBean(DefaultBean2::class).init() })
-}
-
-class Bean1 {
-    fun init() {
-        println("Bean1 Constructed")
-    }
-
-    fun foo() {
-        println("foo")
-    }
-}
-
-interface Bean2
-
-class DefaultBean2(val bean1: Bean1) : Bean2 {
-    fun init() {
-        println("Bean2 Constructed")
-        bean1.foo()
-    }
-}
-
-class TestModule1 : Module {
-    override fun configure(binder: Binder) {
-        binder.registerBean(Bean1::class)
-        binder.registerBean(DefaultBean2::class)
-    }
-
 }
 
 // http://picocontainer.com/injection.html

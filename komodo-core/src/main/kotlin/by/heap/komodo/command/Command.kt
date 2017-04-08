@@ -1,4 +1,5 @@
-package by.heap.komodo
+package by.heap.komodo.command
+
 
 /**
  * Base command interface
@@ -7,6 +8,7 @@ package by.heap.komodo
  * @since 0.1
  */
 interface Command {
+    val name: String
     fun run(arguments: CommandArguments): CommandResult
 }
 
@@ -14,8 +16,8 @@ class CommandArguments
 
 sealed class CommandResult
 
-data class Success(val message: String = "") : CommandResult()
-data class Failure(
+data class SuccessResult(val message: String = "") : CommandResult()
+data class FailureResult(
     val message: String = "",
     val exitCode: Int = 0,
     val exception: Throwable? = null

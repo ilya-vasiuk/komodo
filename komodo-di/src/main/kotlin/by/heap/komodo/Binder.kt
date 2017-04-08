@@ -11,4 +11,6 @@ import kotlin.reflect.KClass
 interface Binder {
     fun registerBean(clazz: KClass<*>): Binder
     fun <T: Any> getBean(clazz: KClass<T>): T
+    fun <T: Any> getBeans(clazz: KClass<T>): List<T>
+    fun start()
 }

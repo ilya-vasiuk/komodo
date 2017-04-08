@@ -1,7 +1,8 @@
 package by.heap.komodo
 
 import org.springframework.beans.factory.getBean
-import org.springframework.context.support.GenericApplicationContext
+import org.springframework.beans.factory.getBeansOfType
+import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import kotlin.reflect.KClass
 
 /**
@@ -11,10 +12,10 @@ import kotlin.reflect.KClass
  * @since 0.1
  */
 class SpringBinder : Binder {
-    private val context = GenericApplicationContext()
+    private val context = AnnotationConfigApplicationContext()
 
     override fun registerBean(clazz: KClass<*>): Binder {
-        context.registerBean(clazz.java)
+        context.register(clazz.java)
         return this
     }
 
@@ -22,7 +23,11 @@ class SpringBinder : Binder {
         return context.getBean(clazz)
     }
 
-    fun start() {
+    override fun <T : Any> getBeans(clazz: KClass<T>): List<T> {
+        return context.getBeansOfType(clazz).map { (_, v) -> v }
+    }
+
+    override fun start() {
         context.refresh()
     }
 }
