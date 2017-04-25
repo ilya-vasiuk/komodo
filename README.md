@@ -13,6 +13,10 @@
 
 For now it will be simple solution for our DI backend, but in future we should be able to replace it komodo core and basic modules.
 
+## Issues
+
+Issues located in [YouTrack](https://heapy.myjetbrains.com/youtrack/issues/KOMODO) since github issues unsound, but you can submit bugs and requests in github issues.
+
 ## LICENCE
 
 Komodo is Open Source software released under the Apache 2.0 license.

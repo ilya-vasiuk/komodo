@@ -8,16 +8,26 @@ import by.heap.komodo.command.CommandArguments
 import by.heap.komodo.command.CommandResult
 import by.heap.komodo.command.DefaultCommandExecutor
 import by.heap.komodo.command.SuccessResult
+import by.heap.komodo.config.ConfigModule
+import by.heap.komodo.config.KomodoConfiguration
 import by.heap.komodo.komodo
 
+
+// http://pholser.github.io/jopt-simple/
+// http://commons.apache.org/proper/commons-cli/
+
+// https://github.com/airlift/airline
+// http://www.jcommander.org/#_overview
+// http://docs.spring.io/spring-boot/docs/1.3.5.RELEASE/reference/html/configuration-metadata.html#configuration-metadata-annotation-processor
 fun main(args: Array<String>) {
     val k = komodo {
         module(TestModule1::class)
+        module(ConfigModule::class)
         args(args)
     }
 
     k.command({
-        it.getBeans(Bean2::class).forEach { it.init() }
+        println(it.getBean(KomodoConfiguration::class).getConfig(SimpleConfig::class))
     })
 }
 
@@ -76,3 +86,5 @@ class ExampleCommand : Command {
         return SuccessResult("Successful run example command.")
     }
 }
+
+data class SimpleConfig(val profile: String, val password: ByteArray)

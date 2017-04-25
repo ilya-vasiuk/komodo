@@ -1,4 +1,5 @@
 dependencies {
     compile(project(":komodo-di"))
     compile(project(":komodo-args"))
+    compile(project(":komodo-config"))
 }
