@@ -3,7 +3,8 @@ setVersion("0.1.0")
 
 buildscript {
     ext {
-        kotlinVersion = "1.1.2-eap-77"
+        kotlinVersion = "1.1.3-eap-34"
+        kotlinCoroutines = "0.15"
         junitVersion = "5.0.0-M4"
         junitPlatformVersion = "1.0.0-M4"
     }
@@ -22,6 +23,12 @@ allprojects {
     apply plugin: "kotlin"
     apply plugin: "org.junit.platform.gradle.plugin"
 
+    kotlin {
+        experimental {
+            coroutines 'enable'
+        }
+    }
+
     repositories {
         jcenter()
         maven { setUrl("http://repo.spring.io/milestone/") }
@@ -31,7 +38,7 @@ allprojects {
     dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
         compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-
+        compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutines")
         compile("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion")
 
         compile("org.springframework:spring-context:5.0.0.M5")
