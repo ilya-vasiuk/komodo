@@ -5,7 +5,7 @@
 ## Pages:
 
 * [Vision](./vision)
-* [Contributors](./contibutors)
+* [Contributors](./contributors)
 
 ## Hello, World!
 
