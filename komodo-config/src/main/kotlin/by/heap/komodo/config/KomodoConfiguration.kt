@@ -9,5 +9,5 @@ import kotlin.reflect.KClass
  * @since 0.1
  */
 interface KomodoConfiguration {
-    fun <T : Any> getConfig(klass: KClass<T>): T?
+    suspend fun <T : Any> getConfig(klass: KClass<T>): T?
 }

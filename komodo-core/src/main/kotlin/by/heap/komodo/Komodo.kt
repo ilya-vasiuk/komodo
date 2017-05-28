@@ -1,40 +1,54 @@
 package by.heap.komodo
 
 import by.heap.komodo.args.Args
+import by.heap.komodo.args.DefaultKmdArgs
+import by.heap.komodo.args.KmdArgs
 import by.heap.komodo.command.CommandExecutor
+import kotlinx.coroutines.experimental.runBlocking
+import java.util.function.Supplier
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
-
-// kmd?
-fun komodo(builder: Komodo.() -> Unit): Komodo {
-    return Komodo().apply {
-        builder(this)
-        run()
+fun komodo(builder: suspend Komodo.() -> Unit): Komodo {
+    return runBlocking {
+        SpringKomodo().also { instance ->
+            println("builder(instance)")
+            builder(instance)
+            println("instance.run()")
+//            instance.run()
+        }
     }
 }
 
-class Komodo {
+// TODO: Documents
+interface Komodo {
+    fun module(module: KClass<out Module>): Komodo
+    suspend fun command(callback: suspend (Binder) -> Unit)
+    fun args(args: Array<String>): Komodo
+    fun run()
+}
+
+class SpringKomodo : Komodo {
     private val modules = mutableListOf<KClass<out Module>>()
     private val binder = SpringBinder()
     private val args = mutableListOf<String>()
 
-    fun module(module: KClass<out Module>): Komodo {
+    override fun module(module: KClass<out Module>): Komodo {
         this.modules += module
         return this
     }
 
-    fun command(callback: (Binder) -> Unit) {
+    override suspend fun command(callback: suspend (Binder) -> Unit) {
         callback(binder)
     }
 
-    fun args(args: Array<String>): Komodo {
+    override fun args(args: Array<String>): Komodo {
         this.args.addAll(args)
+        binder.getContext().registerBean(KmdArgs::class.java, Supplier<KmdArgs> { DefaultKmdArgs(this.args) })
         return this
     }
 
-    fun run() {
-
+    override fun run() {
         this.modules
             .map { it.createInstance() }
             .onEach { it.configure(binder) }
@@ -48,11 +62,3 @@ class Komodo {
         println("Started!")
     }
 }
-
-// http://picocontainer.com/injection.html
-// https://salomonbrys.github.io/Kodein/
-// http://docs.spring.io/spring-framework/docs/5.0.0.M5/spring-framework-reference/htmlsingle/#spring-introduction
-// http://pholser.github.io/jopt-simple/
-// http://www.jcommander.org/
-// https://github.com/fusesource/jansi
-

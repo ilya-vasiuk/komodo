@@ -38,7 +38,7 @@ allprojects {
     dependencies {
         compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
         compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-        compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutines")
+        compile("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$kotlinCoroutines")
         compile("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion")
 
         compile("org.springframework:spring-context:5.0.0.M5")

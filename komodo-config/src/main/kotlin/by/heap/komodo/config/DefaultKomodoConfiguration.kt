@@ -1,8 +1,8 @@
 package by.heap.komodo.config
 
 import by.heap.komodo.common.KomodoException
-import by.heap.komodo.common.getInputStreamProvider
 import by.heap.komodo.scripting.KotlinScriptCompiler
+import kotlinx.coroutines.experimental.sync.Mutex
 import kotlin.reflect.KClass
 
 /**
@@ -14,23 +14,48 @@ In particular you need to replace call to `scriptCompilationClasspathFromContext
  * @author Ibragimov Ruslan
  * @since 0.1
  */
-class DefaultKomodoConfiguration(val kotlinScriptCompiler: KotlinScriptCompiler) : KomodoConfiguration {
-//    private val configs = mapOf<KClass<*>, Any>()
-    private val configs: Map<KClass<*>, Any> by lazy {
-        val any = kotlinScriptCompiler.execute<Any>(getInputStreamProvider("classpath:mvn.kts").getInputStream())
 
-        mapOf(any::class to any)
-    }
+class DefaultKomodoConfiguration(
+    private val kotlinConfigurationSources: KomodoConfigurationSources,
+    private val kotlinScriptCompiler: KotlinScriptCompiler
+) : KomodoConfiguration {
+    private var configs: List<Any> = listOf()
+    private val mutex = Mutex()
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : Any> getConfig(klass: KClass<T>): T? {
+    suspend override fun <T : Any> getConfig(klass: KClass<T>): T? {
+        // TODO: Meh, looks ugly, any better alternatives?
+        if (configs.isEmpty()) {
+            mutex.lock()
+            try {
+                if (configs.isEmpty())
+                    configs = createConfig()
+            } finally {
+                mutex.unlock()
+            }
+        }
+
         return try {
-            configs[klass] as T?
+            configs.find { klass.isInstance(it) } as T?
         } catch (e: ClassCastException) {
             throw KomodoException("CORE-2")
         }
     }
+
+    suspend private fun createConfig(): List<Any> {
+        return kotlinConfigurationSources.getSources().map { sourceProvider ->
+            val result = kotlinScriptCompiler.execute<Any>(sourceProvider.getInputStream())
+
+            when (result) {
+                is List<*> -> result.filterNotNull()
+                else -> listOf(result)
+            }
+        }.flatten()
+    }
+
 }
+
+
 
 
 

@@ -9,5 +9,5 @@ import java.io.InputStream
  * @since 0.1
  */
 interface KotlinScriptCompiler {
-    fun <T> execute(inputStream: InputStream): T
+    suspend fun <T> execute(inputStream: InputStream): T
 }

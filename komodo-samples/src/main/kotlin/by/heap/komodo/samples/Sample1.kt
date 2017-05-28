@@ -16,6 +16,13 @@ import by.heap.komodo.komodo
 // http://pholser.github.io/jopt-simple/
 // http://commons.apache.org/proper/commons-cli/
 
+// http://picocontainer.com/injection.html
+// https://salomonbrys.github.io/Kodein/
+// http://docs.spring.io/spring-framework/docs/5.0.0.M5/spring-framework-reference/htmlsingle/#spring-introduction
+// http://pholser.github.io/jopt-simple/
+// http://www.jcommander.org/
+// https://github.com/fusesource/jansi
+
 // https://github.com/airlift/airline
 // http://www.jcommander.org/#_overview
 // http://docs.spring.io/spring-boot/docs/1.3.5.RELEASE/reference/html/configuration-metadata.html#configuration-metadata-annotation-processor
@@ -24,11 +31,11 @@ fun main(args: Array<String>) {
         module(TestModule1::class)
         module(ConfigModule::class)
         args(args)
+        run()
+        command {
+            println("config: " + it.getBean(KomodoConfiguration::class).getConfig(SimpleConfig::class))
+        }
     }
-
-    k.command({
-        println(it.getBean(KomodoConfiguration::class).getConfig(SimpleConfig::class))
-    })
 }
 
 class Bean1 {

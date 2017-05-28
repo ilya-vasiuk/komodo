@@ -21,6 +21,6 @@ data class FailureResult(
     val message: String = "",
     val exitCode: Int = 0,
     val exception: Throwable? = null
-): CommandResult()
+) : CommandResult()
 
 

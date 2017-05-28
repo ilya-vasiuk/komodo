@@ -14,5 +14,6 @@ class ConfigModule : Module {
     override fun configure(binder: Binder) {
         binder.registerBean(DefaultKotlinScriptCompiler::class)
         binder.registerBean(DefaultKomodoConfiguration::class)
+        binder.registerBean(DefaultKomodoConfigurationSources::class)
     }
 }

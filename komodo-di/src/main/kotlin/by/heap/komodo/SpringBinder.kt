@@ -30,4 +30,6 @@ class SpringBinder : Binder {
     override fun start() {
         context.refresh()
     }
+
+    fun getContext() = context
 }
