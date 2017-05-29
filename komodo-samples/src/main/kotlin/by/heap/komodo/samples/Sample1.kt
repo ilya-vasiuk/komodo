@@ -10,7 +10,7 @@ import by.heap.komodo.command.DefaultCommandExecutor
 import by.heap.komodo.command.SuccessResult
 import by.heap.komodo.config.ConfigModule
 import by.heap.komodo.config.KomodoConfiguration
-import by.heap.komodo.komodo
+import by.heap.komodo.kmd
 
 
 // http://pholser.github.io/jopt-simple/
@@ -27,7 +27,7 @@ import by.heap.komodo.komodo
 // http://www.jcommander.org/#_overview
 // http://docs.spring.io/spring-boot/docs/1.3.5.RELEASE/reference/html/configuration-metadata.html#configuration-metadata-annotation-processor
 fun main(args: Array<String>) {
-    val k = komodo {
+    kmd {
         module(TestModule1::class)
         module(ConfigModule::class)
         args(args)

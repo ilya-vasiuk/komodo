@@ -1,9 +1,12 @@
 package by.heap.komodo.context
 
+import by.heap.komodo.Provider
+import kotlinx.coroutines.experimental.runBlocking
 import org.jetbrains.kotlin.utils.keysToMap
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.jvm.jvmErasure
+import kotlin.reflect.jvm.reflect
 
 /**
  * Generic implementation of Beans.
@@ -12,18 +15,19 @@ import kotlin.reflect.jvm.jvmErasure
  * @since 0.1
  */
 class DefaultBeans : Beans {
-    private val beanDefinitions = mutableMapOf<KClass<*>,BeanDefinition<*>>()
+    private val beanDefinitions = mutableMapOf<KClass<*>, BeanDefinition<*>>()
+
     private val createdBeans = mutableMapOf<KClass<*>, Any>()
 
     override fun start() {
         println("Sir, yes sir!")
     }
 
-    override fun <T : Any> get(kclass: KClass<T>): T {
+    suspend override fun <T : Any> get(kclass: KClass<T>): T {
         return getOrCreateBean(kclass)
     }
 
-    private fun <T: Any> getOrCreateBean(kclass: KClass<T>): T {
+    suspend private fun <T : Any> getOrCreateBean(kclass: KClass<T>): T {
         val bean = createdBeans[kclass]
 
         if (bean != null) {
@@ -46,15 +50,40 @@ class DefaultBeans : Beans {
         return this
     }
 
-    private fun <T : Any> create(beanDefinition: BeanDefinition<T>): T {
+    override fun registerProvider(kclass: KClass<*>, provider: Function<*>): Beans {
+        val constructor = provider.reflect() ?: throw RuntimeException("Can't introspect provider: $provider.")
+        this.beanDefinitions.put(kclass, BeanDefinition(kclass, constructor))
+        return this
+    }
+
+    override fun registerProvider(kclass: KClass<*>, provider: KClass<out Provider<*>>): Beans {
+        val constructor = getConstructor(provider)
+        val bd = BeanDefinition(kclass, constructor)
+
+        this.beanDefinitions.put(kclass, bd)
+        return this
+    }
+
+    suspend private fun <T : Any> create(beanDefinition: BeanDefinition<T>): T {
         val params = beanDefinition.constructor.parameters
 
-        if (params.isEmpty()) {
-            return beanDefinition.constructor.call() as T
-        } else {
-            val paramsToInstance = params.keysToMap { create(getBeanDefinition(it.type.jvmErasure)) }
+        val obj = try {
+            if (params.isEmpty()) {
+                beanDefinition.constructor.call()
+            } else {
+                // TODO: Fix this part
+                val paramsToInstance = params.keysToMap { runBlocking { create(getBeanDefinition(it.type.jvmErasure)) } }
 
-            return beanDefinition.constructor.callBy(paramsToInstance) as T
+                beanDefinition.constructor.callBy(paramsToInstance)
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+
+        return if (obj is Provider<*>) {
+            obj.getInstance() as T
+        } else {
+            obj as T
         }
     }
 
@@ -85,18 +114,21 @@ class Bean1 {
         println("bean1")
     }
 }
+
 class Bean2(val bean1: Bean1) {
     fun boo() {
         println("bean2")
         bean1.foo()
     }
 }
+
 class Bean3(val bean2: Bean2) {
     fun bark() {
         println("bean3")
         bean2.boo()
     }
 }
+
 class Bean4(val bean3: Bean3, val bean2: Bean2) {
     fun bar() {
         println("bean4")
@@ -105,16 +137,23 @@ class Bean4(val bean3: Bean3, val bean2: Bean2) {
     }
 }
 
+class Bean4Provider(val bean3: Bean3, val bean2: Bean2) : Provider<Bean4> {
+    suspend override fun getInstance() = Bean4(bean3, bean2)
+}
 
 fun main(args: Array<String>) {
     val beans = DefaultBeans().apply {
         register(Bean1::class)
         register(Bean2::class)
         register(Bean3::class)
-        register(Bean4::class)
+
+
+        registerProvider(Bean4::class, Bean4Provider::class)
         start()
     }
 
-    beans.get(Bean4::class).bar()
+    runBlocking {
+        beans.get(Bean4::class).bar()
+    }
 
 }

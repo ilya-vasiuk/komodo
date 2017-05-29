@@ -1,21 +1,17 @@
 package by.heap.komodo
 
-import by.heap.komodo.args.Args
 import by.heap.komodo.args.DefaultKmdArgs
 import by.heap.komodo.args.KmdArgs
-import by.heap.komodo.command.CommandExecutor
 import kotlinx.coroutines.experimental.runBlocking
-import java.util.function.Supplier
 import kotlin.reflect.KClass
-import kotlin.reflect.full.createInstance
 
-fun komodo(builder: suspend Komodo.() -> Unit): Komodo {
+fun kmd(builder: suspend Komodo.() -> Unit): Komodo {
     return runBlocking {
-        SpringKomodo().also { instance ->
+        DefaultKomodo().also { instance ->
             println("builder(instance)")
             builder(instance)
             println("instance.run()")
-//            instance.run()
+            instance.run()
         }
     }
 }
@@ -28,9 +24,9 @@ interface Komodo {
     fun run()
 }
 
-class SpringKomodo : Komodo {
+class DefaultKomodo : Komodo {
     private val modules = mutableListOf<KClass<out Module>>()
-    private val binder = SpringBinder()
+    private val binder = KomodoBinder()
     private val args = mutableListOf<String>()
 
     override fun module(module: KClass<out Module>): Komodo {
@@ -38,27 +34,18 @@ class SpringKomodo : Komodo {
         return this
     }
 
-    override suspend fun command(callback: suspend (Binder) -> Unit) {
+    suspend override fun command(callback: suspend (Binder) -> Unit) {
         callback(binder)
     }
 
     override fun args(args: Array<String>): Komodo {
         this.args.addAll(args)
-        binder.getContext().registerBean(KmdArgs::class.java, Supplier<KmdArgs> { DefaultKmdArgs(this.args) })
+        binder.registerProvider(KmdArgs::class, { DefaultKmdArgs(listOf(*args)) })
         return this
     }
 
     override fun run() {
-        this.modules
-            .map { it.createInstance() }
-            .onEach { it.configure(binder) }
-
-        binder.start()
-
-        val args = binder.getBean(Args::class)
-        val commandExecutor = binder.getBean(CommandExecutor::class)
-        commandExecutor.execute(args.getCommand(this.args))
-
-        println("Started!")
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
 }
