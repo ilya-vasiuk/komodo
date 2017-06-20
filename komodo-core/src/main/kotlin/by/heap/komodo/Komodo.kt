@@ -21,13 +21,14 @@ interface Komodo {
     fun module(module: KClass<out Module>): Komodo
     suspend fun command(callback: suspend (Binder) -> Unit)
     fun args(args: Array<String>): Komodo
-    fun run()
+    suspend fun run()
 }
 
 class DefaultKomodo : Komodo {
     private val modules = mutableListOf<KClass<out Module>>()
     private val binder = KomodoBinder()
     private val args = mutableListOf<String>()
+    private val commands = mutableListOf<suspend (Binder) -> Unit>()
 
     override fun module(module: KClass<out Module>): Komodo {
         this.modules += module
@@ -35,7 +36,7 @@ class DefaultKomodo : Komodo {
     }
 
     suspend override fun command(callback: suspend (Binder) -> Unit) {
-        callback(binder)
+        commands.add(callback)
     }
 
     override fun args(args: Array<String>): Komodo {
@@ -44,8 +45,7 @@ class DefaultKomodo : Komodo {
         return this
     }
 
-    override fun run() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    suspend override fun run() {
+        commands.forEach { it(binder) }
     }
-
 }
