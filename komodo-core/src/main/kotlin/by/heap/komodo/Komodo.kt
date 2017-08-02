@@ -2,8 +2,10 @@ package by.heap.komodo
 
 import by.heap.komodo.args.DefaultKmdArgs
 import by.heap.komodo.args.KmdArgs
+import by.heap.komodo.di.Binder
+import by.heap.komodo.di.Module
+import by.heap.komodo.di.kmd.KomodoBinder
 import kotlinx.coroutines.experimental.runBlocking
-import kotlin.reflect.KClass
 
 fun kmd(builder: suspend Komodo.() -> Unit): Komodo {
     return runBlocking {
@@ -18,19 +20,19 @@ fun kmd(builder: suspend Komodo.() -> Unit): Komodo {
 
 // TODO: Documents
 interface Komodo {
-    fun module(module: KClass<out Module>): Komodo
+    fun module(module: Module): Komodo
     suspend fun command(callback: suspend (Binder) -> Unit)
     fun args(args: Array<String>): Komodo
     suspend fun run()
 }
 
 class DefaultKomodo : Komodo {
-    private val modules = mutableListOf<KClass<out Module>>()
+    private val modules = mutableListOf<Module>()
     private val binder = KomodoBinder()
     private val args = mutableListOf<String>()
     private val commands = mutableListOf<suspend (Binder) -> Unit>()
 
-    override fun module(module: KClass<out Module>): Komodo {
+    override fun module(module: Module): Komodo {
         this.modules += module
         return this
     }
@@ -46,6 +48,9 @@ class DefaultKomodo : Komodo {
     }
 
     suspend override fun run() {
+        modules.fold(binder) { b:Binder, module ->
+            module(b)
+        }
         commands.forEach { it(binder) }
     }
 }

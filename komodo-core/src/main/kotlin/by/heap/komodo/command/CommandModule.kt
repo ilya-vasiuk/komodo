@@ -1,13 +1,13 @@
 package by.heap.komodo.command
 
+import by.heap.komodo.di.moduleOf
+
 /**
  * TODO.
  *
  * @author Ibragimov Ruslan
  * @since 0.1
  */
-class CommandModule : by.heap.komodo.Module {
-    override fun configure(binder: by.heap.komodo.Binder) {
-        binder.registerBean(DefaultCommandExecutor::class)
-    }
+val commandModule = moduleOf {
+    registerBean(DefaultCommandExecutor::class)
 }

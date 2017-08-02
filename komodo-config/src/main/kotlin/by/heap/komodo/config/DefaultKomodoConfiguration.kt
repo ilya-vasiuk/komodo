@@ -1,7 +1,7 @@
 package by.heap.komodo.config
 
 import by.heap.komodo.common.KomodoException
-import by.heap.komodo.scripting.KotlinScriptCompiler
+import by.heap.komodo.scripting.DefaultKotlinScriptCompiler
 import kotlinx.coroutines.experimental.sync.Mutex
 import kotlin.reflect.KClass
 
@@ -16,8 +16,8 @@ In particular you need to replace call to `scriptCompilationClasspathFromContext
  */
 
 class DefaultKomodoConfiguration(
-    private val kotlinConfigurationSources: KomodoConfigurationSources,
-    private val kotlinScriptCompiler: KotlinScriptCompiler
+    private val kotlinConfigurationSources: DefaultKomodoConfigurationSources,
+    private val kotlinScriptCompiler: DefaultKotlinScriptCompiler
 ) : KomodoConfiguration {
     private var configs: List<Any> = listOf()
     private val mutex = Mutex()

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 /**
- * TODO.
+ * Tests for default
  *
  * @author Ibragimov Ruslan
  * @since 0.1

@@ -1,6 +1,0 @@
-dependencies {
-    compile(project(":komodo-args"))
-    compile(project(":komodo-di"))
-    compile(project(":komodo-scripting"))
-    compile(project(":komodo-common"))
-}

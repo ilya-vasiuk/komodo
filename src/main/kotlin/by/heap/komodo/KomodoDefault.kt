@@ -1,2 +1,0 @@
-package by.heap.komodo
-
