@@ -1,5 +1,7 @@
-# IDE and Build system
-# related files
+# Gradle
 build
-.idea
 .gradle
+
+# Intellij IDEA
+out
+.idea
