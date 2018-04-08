@@ -1,4 +1,4 @@
-![Logo](./logo.png)
+![Logo](./docs/logo.png)
 
 # Painless way to build software [![Build Status](https://travis-ci.org/Heapy/komodo.svg?branch=master)](https://travis-ci.org/Heapy/komodo)
 
