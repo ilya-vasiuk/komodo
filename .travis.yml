@@ -9,7 +9,7 @@ deploy:
     script: echo "deploy"
     skip_cleanup: true
     on:
-      repo: heapy/komodo
+      repo: Heapy/komodo
       jdk: oraclejdk8
 
 before_cache:
