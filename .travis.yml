@@ -4,6 +4,10 @@ jdk:
   - oraclejdk8
   - openjdk11
 
+matrix:
+  allow_failures:
+    - jdk: openjdk11
+
 deploy:
   - provider: script
     script: echo "deploy"
