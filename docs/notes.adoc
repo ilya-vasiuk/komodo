@@ -1,0 +1,68 @@
+https://zeroturnaround.com/rebellabs/using-buildsrc-for-custom-logic-in-gradle-builds/[https://zeroturnaround.com/rebellabs/using-buildsrc-for-custom-logic-in-gradle-builds/]
+
+https://github.com/aatarasoff/kotlin-script-starter[https://github.com/aatarasoff/kotlin-script-starter]
+
+http://pholser.github.io/jopt-simple/[http://pholser.github.io/jopt-simple/]
+http://commons.apache.org/proper/commons-cli/[http://commons.apache.org/proper/commons-cli/]
+http://www.jcommander.org/[http://www.jcommander.org/]
+https://github.com/airlift/airline[https://github.com/airlift/airline]
+https://github.com/fusesource/jansi[https://github.com/fusesource/jansi]
+
+https://github.com/mabe02/lanterna[https://github.com/mabe02/lanterna]
+
+http://docs.spring.io/spring-framework/docs/5.0.0.M5/spring-framework-reference/htmlsingle/#spring-introduction[http://docs.spring.io/spring-framework/docs/5.0.0.M5/spring-framework-reference/htmlsingle/#spring-introduction]
+
+http://docs.spring.io/spring-boot/docs/1.3.5.RELEASE/reference/html/configuration-metadata.html#configuration-metadata-annotation-processor[http://docs.spring.io/spring-boot/docs/1.3.5.RELEASE/reference/html/configuration-metadata.html#configuration-metadata-annotation-processor]
+
+== Cli tools
+
+https://github.com/lalyos/jfiglet[https://github.com/lalyos/jfiglet]
+https://picocli.info/[https://picocli.info/] (Еще генерирует файла автодополнения для баша, https://picocli.info/picocli-3.0-programmatic-api.html[https://picocli.info/picocli-3.0-programmatic-api.html])
+
+komodo-cli: interactive command startup - mainly for one-time running: enter arguments one by one. allow to choose arguments from run history.
+
+=== Logger!
+
+Log in json/binary format, by then use tool to format/query logs:
+
+java -jar komodo.jar | logger -f "class message" -q "error"
+
+Think about integration with docker/kubernates environment.
+
+Cloudwatch, etc
+
+=== Простое конфигурирование
+
+Например s3 модуль, в bq он может провайдить только один инстанс s3 с единственной конфигурацией, это неплохо, но хотелось бы:
+
+. расширять конфигурацию если она недостаточно полная. например не учтены все возможности конфигурации или хочется добавить какие-то свои параметры
+. иметь несколько конфигураций (для любого модуля без дополнительных усилий)
+. расширять модуль (т.к. конфигурация расширяема), т.е. override отдельных частей модулей. в случае jetty модуля это может быть override создания класса server
+
+=== DI контексты
+
+Возможно стоит разграничить user и framework DI контексты, так можно будет иметь два objectmapper, один который необходим пользователю, а второй для нужд framework
+
+=== Built-in profiles
+
+То с чем я постоянно сталкиваюсь - необходимость разных конфигураций для разных environment.
+
+Это может быть различные бины - например создаем класс `A : I` в одном случае, а `B : I` в другом. Или какие-то вшитые конфигурационные параметры в зависимости от env.
+
+=== Идея: Module as function?
+
+Если представить модуль некоторой композиций функций - то можно заменить некоторые функции, и получить новый модуль. Подумать на идеей, пример из spring-fu:
+
+[source,kotlin]
+----
+application {
+    mongodb("mongodb://myserver.com/foo")
+}
+----
+
+
+=== Common DI
+
+// TODO: Komodo DI and Komodo DI Default should be Common module
+// https://kotlinlang.org/docs/reference/multiplatform.html
+// https://blog.kotlin-academy.com/extracting-multiplatform-common-modules-in-android-4a564cc03e0a
