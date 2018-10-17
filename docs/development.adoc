@@ -1,0 +1,4 @@
+== How To Release Komodo
+
+Each commit releases new version of komodo in heap-dev repository, using latest version in current branch with suffix `dev` and build number.
+Each tagged commit releases new version of komodo in heap repository, using tag as version.
