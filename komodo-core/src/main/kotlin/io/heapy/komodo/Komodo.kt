@@ -1,10 +1,11 @@
 package io.heapy.komodo
 
 import kotlin.reflect.KClass
+import io.heapy.komodo.di.Module
 
 interface Komodo {
-    fun args(args: Array<String>): io.heapy.komodo.Komodo
-    fun env(env: Map<String, String>): io.heapy.komodo.Komodo
-    fun module(module: Module): io.heapy.komodo.Komodo
-    suspend fun <R> run(entryPoint: KClass<out io.heapy.komodo.EntryPoint<R>>): R
+    fun args(args: Array<String>): Komodo
+    fun env(env: Map<String, String>): Komodo
+    fun module(module: Module): Komodo
+    suspend fun <R> run(entryPoint: KClass<out EntryPoint<R>>): R
 }
