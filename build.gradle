@@ -1,48 +1,60 @@
-setGroup("by.heap.komodo")
-setVersion("0.1.0")
-
-buildscript {
-    ext {
-        kotlinVersion = "1.2-M1"
-        kotlinCoroutines = "0.16"
-        slf4jVersion = "1.7.25"
-        junitVersion = "5.0.0-M4"
-        junitPlatformVersion = "1.0.0-M4"
-    }
-    repositories {
-        jcenter()
-        maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap-1.2/") }
-    }
-
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-        classpath("org.junit.platform:junit-platform-gradle-plugin:$junitPlatformVersion")
-    }
+plugins {
+    id("org.jetbrains.kotlin.jvm").version("1.2.71").apply(false)
+    id("io.spring.dependency-management").version("1.0.6.RELEASE").apply(false)
+    id("com.jfrog.bintray").version("1.8.4").apply(false)
+    id("org.jetbrains.dokka").version("0.9.17").apply(false)
 }
+
+// TODO: Komodo DI and Komodo DI Default should be Common module
+// https://kotlinlang.org/docs/reference/multiplatform.html
+// https://blog.kotlin-academy.com/extracting-multiplatform-common-modules-in-android-4a564cc03e0a
 
 subprojects {
     apply plugin: "kotlin"
-    apply plugin: "org.junit.platform.gradle.plugin"
+    apply plugin: "io.spring.dependency-management"
 
-    kotlin {
-        experimental {
-            coroutines "enable"
-        }
+    kotlin.experimental.coroutines "enable"
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "$kotlinJvmTarget"
+    }
+
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "$kotlinJvmTarget"
     }
 
     repositories {
         jcenter()
-        maven { setUrl("http://repo.spring.io/milestone/") }
-        maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap-1.2/") }
+        maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap/") }
+        maven { setUrl("https://dl.bintray.com/heapy/heap/") }
+    }
+
+    dependencyManagement {
+        dependencies {
+            dependency("org.slf4j:slf4j-api:$slf4jVersion")
+
+            dependency("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion")
+            dependency("org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlinVersion")
+            dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+            dependency("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+            dependency("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$kotlinxCoroutines")
+
+            dependency("io.undertow:undertow-core:$undertowVersion")
+
+            dependency("org.apache.httpcomponents:httpasyncclient:$apacheHttpClientVersion")
+
+            dependency("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+            dependency("io.mockk:mockk:$mockkVersion")
+        }
     }
 
     dependencies {
-        compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-        compile("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-        compile("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$kotlinCoroutines")
-        compile("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion")
+        compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        compile("org.jetbrains.kotlin:kotlin-reflect")
+        compile("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
 
-        testCompile("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+        testCompile("io.mockk:mockk")
+        testCompile("org.junit.jupiter:junit-jupiter-engine")
     }
 }
 
@@ -50,7 +62,7 @@ subprojects {
 project(":komodo") {
     dependencies {
         compile(project(":komodo-light"))
-        compile("org.slf4j:slf4j-api:$slf4jVersion")
+        compile("org.slf4j:slf4j-api")
     }
 }
 
@@ -61,46 +73,58 @@ project(":komodo-args") {
     }
 }
 
-project(":komodo-common") {
-    dependencies {
-    }
-}
-
 project(":komodo-config") {
     dependencies {
         compile(project(":komodo-args"))
         compile(project(":komodo-di"))
         compile(project(":komodo-scripting"))
-        compile(project(":komodo-common"))
+        compile(project(":komodo-core"))
     }
 }
 
 project(":komodo-console") {
     dependencies {
-        compile(project(":komodo-common"))
+        compile(project(":komodo-core"))
     }
 }
 
 project(":komodo-core") {
     dependencies {
         compile(project(":komodo-di"))
+        compile(project(":komodo-di-default"))
         compile(project(":komodo-args"))
         compile(project(":komodo-config"))
+
+        compile("org.funktionale:funktionale-either:1.2")
     }
 }
 
 project(":komodo-di") {
+    dependencies {
+        compile group: 'com.google.inject', name: 'guice', version: '4.2.0'
+        compile group: 'org.springframework', name: 'spring-context', version: '5.0.5.RELEASE'
+    }
+}
 
+project(":komodo-di-default") {
+    dependencies {
+        compile(project(":komodo-di"))
+    }
+}
+
+project(":komodo-integration:komodo-http") {
+    dependencies {
+        compile("org.apache.httpcomponents:httpasyncclient")
+    }
 }
 
 // Light version of komodo
 project(":komodo-light") {
     dependencies {
-        compile(project(":komodo-di"))
-        compile(project(":komodo-config"))
-        compile(project(":komodo-common"))
-        compile(project(":komodo-core"))
-        compile("org.slf4j:slf4j-api:$slf4jVersion")
+//        compile(project(":komodo-di"))
+//        compile(project(":komodo-config"))
+//        compile(project(":komodo-core"))
+        compile("org.slf4j:slf4j-api")
     }
 }
 
@@ -112,6 +136,7 @@ project(":komodo-samples") {
 
 project(":komodo-samples:sample-komodo") {
     dependencies {
+        compile(project(":komodo-scripting"))
         compile(project(":komodo-light"))
     }
 }
@@ -124,6 +149,27 @@ project(":komodo-samples:sample-komodo-light") {
 
 project(":komodo-scripting") {
     dependencies {
-        compile("org.jetbrains.kotlin:kotlin-script-util:$kotlinVersion")
+        compile(project(":komodo-di"))
+
+        compile("org.jetbrains.kotlin:kotlin-script-util")
+        compile("org.jetbrains.kotlin:kotlin-compiler-embeddable")
+    }
+}
+
+project(":komodo-bom") {
+    apply plugin: "maven"
+
+    dependencyManagement {
+        dependencies {
+            //sample of library dependency
+            //dependency("by.heap:komodo:0.10")
+        }
+    }
+}
+
+project(":komodo-integration:komodo-undertow") {
+    dependencies {
+        compile(project(":komodo-di"))
+        compile("io.undertow:undertow-core")
     }
 }
