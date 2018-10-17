@@ -1,4 +1,4 @@
-# Komodo Documentations
+# Komodo Documentation
 
 > This documentation describes default Komodo setup. You can customize like every part of komodo, even rewrite all implementations of standard services and replace interfaces and DI. But more practical and easy - use default services.
 
