@@ -1,0 +1,7 @@
+https://junit.org/junit5/docs/current/user-guide/#extensions-test-instance-post-processing
+
+https://github.com/spekframework/spek/blob/2.x/spek-runner/junit5/src/main/kotlin/org/spekframework/spek2/junit/SpekTestEngine.kt
+
+https://github.com/spekframework/spek/tree/2.x/spek-runtime/common/src/main/kotlin/org/spekframework/spek2/runtime
+
+https://github.com/junit-team/junit5/issues/1372

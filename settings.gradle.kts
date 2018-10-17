@@ -17,6 +17,7 @@ include(
     "komodo-bom",
     "komodo-config",
     "komodo-console",
+    "komodo-common",
     "komodo-core",
     "komodo-di",
     "komodo-di-default",
