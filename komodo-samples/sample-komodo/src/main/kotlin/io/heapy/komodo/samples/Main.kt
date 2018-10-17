@@ -1,5 +1,6 @@
 package io.heapy.komodo.samples
 
+import io.heapy.komodo.di.Module
 import io.heapy.komodo.scripting.DefaultKotlinScriptCompiler
 import kotlinx.coroutines.experimental.runBlocking
 import kotlin.reflect.KClass
