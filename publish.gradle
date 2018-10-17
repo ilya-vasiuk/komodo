@@ -66,6 +66,8 @@ publishing {
     }
 }
 
+boolean isDev = project.version.contains("dev")
+
 bintray {
     user = System.getenv("BINTRAY_USER")
     key = System.getenv("BINTRAY_API_KEY")
@@ -77,9 +79,10 @@ bintray {
 
     pkg {
         userOrg = "heapy"
-        repo = project.version.endsWith("dev") ? "heap" : "heap-dev"
+        repo = isDev ? "heap-dev" : "heap"
         name = "komodo"
         websiteUrl = "https://heapy.io/komodo"
+        publish = isDev
         licenses = ["GPL-3.0"]
         vcsUrl = "https://github.com/Heapy/komodo"
         publications = ["maven"]
