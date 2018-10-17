@@ -10,9 +10,17 @@ matrix:
 
 deploy:
   - provider: script
-    script: echo "deploy"
+    script: bash deploy.sh tag
     skip_cleanup: true
     on:
+      tags: true
+      repo: Heapy/komodo
+      jdk: oraclejdk8
+  - provider: script
+    script: bash deploy.sh dev
+    skip_cleanup: true
+    on:
+      tags: false
       repo: Heapy/komodo
       jdk: oraclejdk8
 
