@@ -13,7 +13,7 @@ Main components:
 * Testing;
 * Number of ready to use integrations.
 
-[Getting started](./docs/getting-started.md)
+[Getting started](./docs/getting-started.adoc)
 
 ## Code Style
 
