@@ -1,4 +1,4 @@
-package by.heap.komodo.undertow
+package io.heapy.komodo.undertow
 
 import java.nio.file.Path
 

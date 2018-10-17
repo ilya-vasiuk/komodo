@@ -1,4 +1,4 @@
-package app.hea.integration.slf4j
+package io.heapy.integration.slf4j
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

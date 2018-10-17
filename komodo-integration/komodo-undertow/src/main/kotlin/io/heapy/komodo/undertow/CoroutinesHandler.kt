@@ -1,4 +1,4 @@
-package by.heap.komodo.undertow
+package io.heapy.komodo.undertow
 
 import io.undertow.server.HttpHandler
 import io.undertow.server.HttpServerExchange
