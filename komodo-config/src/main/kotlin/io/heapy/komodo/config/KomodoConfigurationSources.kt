@@ -5,8 +5,8 @@ import io.heapy.komodo.file.InputStreamProvider
 /**
  * Provides configuration data.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 interface KomodoConfigurationSources {
     fun getSources(): List<InputStreamProvider>

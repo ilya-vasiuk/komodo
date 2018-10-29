@@ -5,8 +5,8 @@ import kotlin.reflect.KClass
 /**
  * Binder interface.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 interface Binder {
     fun <T : Any> wire(klass: KClass<T>): BindingBuilder<T>

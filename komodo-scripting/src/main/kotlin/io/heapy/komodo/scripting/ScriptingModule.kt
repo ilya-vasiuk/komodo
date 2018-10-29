@@ -6,8 +6,8 @@ import io.heapy.komodo.di.Module
 /**
  * Module that provides [KotlinScriptCompiler].
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 class ScriptingModule : Module {
     override fun assemble(binder: Binder) {

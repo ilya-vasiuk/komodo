@@ -5,8 +5,8 @@ import java.io.InputStream
 /**
  * Provider for resources located in classpath.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 class ClasspathInputStreamProvider(
     private val path: String

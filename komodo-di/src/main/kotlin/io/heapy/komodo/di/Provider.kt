@@ -5,8 +5,8 @@ package io.heapy.komodo.di
  * https://youtrack.jetbrains.com/issue/KT-9062
  * Than we can use lambdas instead.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 interface Provider<out T> {
     suspend fun getInstance(): T

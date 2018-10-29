@@ -5,8 +5,8 @@ import io.heapy.komodo.di.Module
 import kotlin.reflect.KClass
 
 /**
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 class DefaultKomodo : Komodo {
     private val modules = mutableListOf<Module>()

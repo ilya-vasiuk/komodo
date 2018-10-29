@@ -33,8 +33,8 @@ import kotlin.reflect.jvm.jvmErasure
 // bar - is optional dependency
 
 /**
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 class KomodoBinder(
     private val dependencies: MutableMap<KClass<*>, Dependency<*>> = mutableMapOf()

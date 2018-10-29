@@ -3,8 +3,8 @@ package io.heapy.komodo.command
 import org.funktionale.either.Either
 
 /**
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 class DefaultCommandExecutor(
     private val commands: List<io.heapy.komodo.command.Command<*>>

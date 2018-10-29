@@ -8,8 +8,8 @@ import java.nio.file.Paths
 /**
  * Provider for resources located in filesystem.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 class FileSystemInputStreamProvider(
     private val path: String

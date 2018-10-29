@@ -3,8 +3,8 @@ package io.heapy.komodo.functions
 /**
  * Function to simply measure time spend with some computation.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 suspend fun <T> measureMs(block: suspend () -> T): Pair<Long, T> {
     val start = System.currentTimeMillis()

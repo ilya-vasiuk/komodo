@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory
 /**
  * Function to retrieve logger by class.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 inline fun <reified T : Any> logger(): Logger = LoggerFactory.getLogger(T::class.java)

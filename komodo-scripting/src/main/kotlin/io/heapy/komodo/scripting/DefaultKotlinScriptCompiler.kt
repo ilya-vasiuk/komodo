@@ -1,17 +1,17 @@
 package io.heapy.komodo.scripting
 
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.newSingleThreadContext
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.newSingleThreadContext
 import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngineFactory
 import java.io.InputStream
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Default implementation which used [KotlinJsr223JvmLocalScriptEngineFactory].
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 class DefaultKotlinScriptCompiler(
     private val context: CoroutineContext = newSingleThreadContext("DefaultKotlinScriptCompiler")

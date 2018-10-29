@@ -3,7 +3,7 @@ package io.heapy.komodo.undertow
 /**
  * TODO.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 class UndertowModule

@@ -5,8 +5,8 @@ import kotlin.reflect.KClass
 /**
  * Interface for defining user modules.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 interface Module {
     /**

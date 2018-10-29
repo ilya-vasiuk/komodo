@@ -5,8 +5,8 @@ import kotlin.reflect.KClass
 /**
  * Interface for decorating one impl with another.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 interface WrappedBindingBuilder<T : Any> {
     fun override(moduleKlass: KClass<out Module>)

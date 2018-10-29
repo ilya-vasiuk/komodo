@@ -5,8 +5,8 @@ package io.heapy.komodo
  *
  * Usually this method runs something like web server or desktop application.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 interface EntryPoint<out R> {
     suspend fun run(): R

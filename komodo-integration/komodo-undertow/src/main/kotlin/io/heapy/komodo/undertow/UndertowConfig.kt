@@ -6,8 +6,8 @@ import java.nio.file.Path
  * Basic Configuration of Undertow.
  * Used for creating default instance of undertow.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 data class UndertowConfig(
     val httpListeners: List<HttpListenerConfig> = listOf(HttpListenerConfig(8080, "0.0.0.0")),

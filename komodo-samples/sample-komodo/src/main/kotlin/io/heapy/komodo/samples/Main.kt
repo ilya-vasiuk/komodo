@@ -2,14 +2,14 @@ package io.heapy.komodo.samples
 
 import io.heapy.komodo.di.Module
 import io.heapy.komodo.scripting.DefaultKotlinScriptCompiler
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 import kotlin.reflect.KClass
 
 /**
  * TODO.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 object Main {
     @JvmStatic

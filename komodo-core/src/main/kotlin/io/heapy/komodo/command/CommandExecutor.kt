@@ -5,8 +5,8 @@ import org.funktionale.either.Either
 /**
  * TODO.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 interface CommandExecutor {
     fun <R> execute(name: String): Either<Exception, R>

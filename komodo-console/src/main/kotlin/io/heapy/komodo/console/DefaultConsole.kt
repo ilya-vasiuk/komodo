@@ -6,8 +6,8 @@ import java.io.IOException
 /**
  * Default implmentation of console.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 class DefaultConsole : io.heapy.komodo.console.Console {
     override fun print(msg: io.heapy.komodo.console.ConsoleMessage) {

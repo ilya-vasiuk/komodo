@@ -9,8 +9,8 @@ private const val CLASSPATH_PREFIX = "classpath:"
  * Interface for classes which can provide input stream
  * of their content.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 interface InputStreamProvider {
     /**

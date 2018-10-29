@@ -7,8 +7,8 @@ import kotlin.reflect.KClass
 /**
  * Represents an dependency in binder.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 sealed class Dependency<T : Any>(
     val key: KClass<T>

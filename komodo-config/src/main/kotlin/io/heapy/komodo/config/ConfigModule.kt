@@ -8,8 +8,8 @@ import io.heapy.komodo.scripting.KotlinScriptCompiler
 /**
  * TODO.
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 class ConfigModule : Module {
     override fun assemble(binder: Binder) {

@@ -8,8 +8,8 @@ import kotlin.reflect.KClass
 /**
  * Komodo implementation of [WrappedBindingBuilder].
  *
- * @author Ibragimov Ruslan
- * @since 0.1
+ * @author Ruslan Ibragimov
+ * @since 1.0
  */
 class KomodoWrappedBindingBuilder<T : Any>(
     private val binder: KomodoBinder,
