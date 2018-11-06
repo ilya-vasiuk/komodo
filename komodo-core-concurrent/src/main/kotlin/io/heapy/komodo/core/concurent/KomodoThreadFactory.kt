@@ -10,8 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger
  * @since 1.0
  */
 class KomodoThreadFactory(
-    private val nameProducer: ThreadNameProducer = { "komodo-$it" },
-    private val isDaemon: Boolean = false
+    private val isDaemon: Boolean = false,
+    private val nameProducer: ThreadNameProducer = { "komodo-$it" }
 ) : ThreadFactory {
     private val counter = AtomicInteger()
 
