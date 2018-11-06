@@ -2,7 +2,6 @@ package io.heapy.komodo.datasource.hikaricp
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.metrics.MetricsTrackerFactory
-import io.heapy.komodo.core.beans.setIfNotNull
 import io.heapy.komodo.core.time.unit.Milliseconds
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ThreadFactory
@@ -57,44 +56,44 @@ interface HikariCPConfiguration {
     val scheduledExecutor: ScheduledExecutorService?
 
     fun toHikariConfig(): HikariConfig = HikariConfig().also {
-        setIfNotNull(it::setDataSource, dataSource)
-        setIfNotNull(it::setDataSourceClassName, dataSourceClassName)
-        setIfNotNull(it::setJdbcUrl, jdbcUrl)
-        setIfNotNull(it::setUsername, username)
-        setIfNotNull(it::setPassword, password)
+        dataSource?.let(it::setDataSource)
+        dataSourceClassName?.let(it::setDataSourceClassName)
+        jdbcUrl?.let(it::setJdbcUrl)
+        username?.let(it::setUsername)
+        password?.let(it::setPassword)
 
-        setIfNotNull(it::setAutoCommit, autoCommit)
-        setIfNotNull(it::setConnectionTimeout, connectionTimeout?.millis)
-        setIfNotNull(it::setIdleTimeout, idleTimeout?.millis)
-        setIfNotNull(it::setMaxLifetime, maxLifetime?.millis)
+        autoCommit?.let(it::setAutoCommit)
+        connectionTimeout?.millis?.let(it::setConnectionTimeout)
+        idleTimeout?.millis?.let(it::setIdleTimeout)
+        maxLifetime?.millis?.let(it::setMaxLifetime)
 
-        setIfNotNull(it::setConnectionTestQuery, connectionTestQuery)
-        setIfNotNull(it::setMinimumIdle, minimumIdle)
-        setIfNotNull(it::setMaximumPoolSize, maximumPoolSize)
+        connectionTestQuery?.let(it::setConnectionTestQuery)
+        minimumIdle?.let(it::setMinimumIdle)
+        maximumPoolSize?.let(it::setMaximumPoolSize)
 
-        setIfNotNull(it::setMetricRegistry, metricRegistry)
-        setIfNotNull(it::setMetricsTrackerFactory, metricsTrackerFactory)
-        setIfNotNull(it::setHealthCheckRegistry, healthCheckRegistry)
+        metricRegistry?.let(it::setMetricRegistry)
+        metricsTrackerFactory?.let(it::setMetricsTrackerFactory)
+        healthCheckRegistry?.let(it::setHealthCheckRegistry)
 
-        setIfNotNull(it::setPoolName, poolName)
+        poolName?.let(it::setPoolName)
 
-        setIfNotNull(it::setInitializationFailTimeout, initializationFailTimeout?.millis)
+        initializationFailTimeout?.millis?.let(it::setInitializationFailTimeout)
 
-        setIfNotNull(it::setIsolateInternalQueries, isolateInternalQueries)
-        setIfNotNull(it::setAllowPoolSuspension, allowPoolSuspension)
-        setIfNotNull(it::setReadOnly, readOnly)
-        setIfNotNull(it::setRegisterMbeans, registerMbeans)
+        isolateInternalQueries?.let(it::setIsolateInternalQueries)
+        allowPoolSuspension?.let(it::setAllowPoolSuspension)
+        readOnly?.let(it::setReadOnly)
+        registerMbeans?.let(it::setRegisterMbeans)
 
-        setIfNotNull(it::setCatalog, catalog)
-        setIfNotNull(it::setConnectionInitSql, connectionInitSql)
-        setIfNotNull(it::setDriverClassName, driverClassName)
-        setIfNotNull(it::setTransactionIsolation, transactionIsolation)
+        catalog?.let(it::setCatalog)
+        connectionInitSql?.let(it::setConnectionInitSql)
+        driverClassName?.let(it::setDriverClassName)
+        transactionIsolation?.let(it::setTransactionIsolation)
 
-        setIfNotNull(it::setValidationTimeout, validationTimeout?.millis)
-        setIfNotNull(it::setLeakDetectionThreshold, leakDetectionThreshold?.millis)
+        validationTimeout?.millis?.let(it::setValidationTimeout)
+        leakDetectionThreshold?.millis?.let(it::setLeakDetectionThreshold)
 
-        setIfNotNull(it::setSchema, schema)
-        setIfNotNull(it::setThreadFactory, threadFactory)
-        setIfNotNull(it::setScheduledExecutor, scheduledExecutor)
+        schema?.let(it::setSchema)
+        threadFactory?.let(it::setThreadFactory)
+        scheduledExecutor?.let(it::setScheduledExecutor)
     }
 }
