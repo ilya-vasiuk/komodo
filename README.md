@@ -1,6 +1,8 @@
 ![Logo](./docs/logo.png)
 
-# Painless way to build software [![Build Status](https://travis-ci.org/Heapy/komodo.svg?branch=master)](https://travis-ci.org/Heapy/komodo)
+# Painless way to build software 
+
+[![Build Status](https://travis-ci.org/Heapy/komodo.svg?branch=master)](https://travis-ci.org/Heapy/komodo) [![codecov](https://codecov.io/gh/Heapy/komodo/branch/master/graph/badge.svg)](https://codecov.io/gh/Heapy/komodo)
 
 **Komodo** - is a framework aims to simplify development of modern web applications.
 
