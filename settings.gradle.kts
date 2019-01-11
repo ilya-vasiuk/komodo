@@ -6,9 +6,6 @@ pluginManagement {
     }
 }
 
-// emulate behaviour of gradle 5
-enableFeaturePreview("STABLE_PUBLISHING")
-
 rootProject.name = "komodo"
 
 include(
@@ -16,6 +13,7 @@ include(
     "komodo-args",
     "komodo-bom",
     "komodo-config",
+    "komodo-config-dotenv",
     "komodo-console",
     "komodo-common",
     "komodo-core",
@@ -25,18 +23,22 @@ include(
     "komodo-core-beans",
     "komodo-di",
     "komodo-di-default",
-    "komodo-light",
-    "komodo-samples",
-    "komodo-samples:sample-komodo",
-    "komodo-samples:sample-komodo-light",
-    "komodo-scripting",
-    "komodo-integration",
     "komodo-integration:komodo-datasource",
     "komodo-integration:komodo-datasource-hikaricp",
     "komodo-integration:komodo-http",
     "komodo-integration:komodo-jooq",
-    "komodo-integration:komodo-slf4j",
+    "komodo-integration:komodo-metrics",
+    "komodo-integration:komodo-metrics-micrometer",
+    "komodo-integration:komodo-logging",
+    "komodo-integration:komodo-logging-logback",
     "komodo-integration:komodo-ktor-server",
+    "komodo-integration:komodo-r2dbc",
+    "komodo-integration:komodo-undertow",
     "komodo-integration:komodo-ktor-client",
-    "komodo-integration:komodo-undertow"
+    "komodo-junit5-coroutines-engine",
+    "komodo-light",
+    "komodo-samples",
+    "komodo-samples:sample-komodo",
+    "komodo-samples:sample-komodo-light",
+    "komodo-scripting"
 )

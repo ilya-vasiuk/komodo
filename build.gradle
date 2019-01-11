@@ -69,6 +69,7 @@ subprojects {
             // tests
             dependency("org.junit.jupiter:junit-jupiter-api:$junitVersion")
             dependency("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+            dependency("org.junit.platform:junit-platform-engine:$junitPlatformVersion")
             dependency("io.mockk:mockk:$mockkVersion")
         }
     }

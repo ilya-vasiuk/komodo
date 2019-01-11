@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadFactory
 import javax.sql.DataSource
 
 /**
- * TODO.
+ * Default implementation of [HikariCPConfiguration].
  *
  * @author Ruslan Ibragimov
  * @since 1.0

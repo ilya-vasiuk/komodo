@@ -12,5 +12,6 @@ dependencies {
 
     testCompile("org.slf4j:slf4j-simple")
     testCompile("io.mockk:mockk")
-    testCompile("org.junit.jupiter:junit-jupiter-engine")
+    testApi("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }

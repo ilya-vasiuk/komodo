@@ -23,7 +23,7 @@ internal class DefaultHikariCPConfigurationTest {
         val scheduledExecutor = mockk<ScheduledExecutorService>()
         val config = DefaultHikariCPConfiguration(
             dataSource = dataSource,
-            dataSourceClassName = "dataSourceClassName",
+            dataSourceClassName = null,
             jdbcUrl = "jdbcUrl",
             allowPoolSuspension = false,
             username = "username",
@@ -42,7 +42,7 @@ internal class DefaultHikariCPConfigurationTest {
             registerMbeans = false,
             catalog = "catalog",
             connectionInitSql = "connectionInitSql",
-            driverClassName = "io.heapy.komodo.datasource.hikaricp.DefaultHikariConnectionPoolConfiguration",
+            driverClassName = null,
             transactionIsolation = "transactionIsolation",
             validationTimeout = Seconds(5).toMillis(),
             leakDetectionThreshold = Seconds(6).toMillis(),
@@ -53,7 +53,6 @@ internal class DefaultHikariCPConfigurationTest {
 
         assertAll(
             { assertEquals(dataSource, config.dataSource) },
-            { assertEquals("dataSourceClassName", config.dataSourceClassName) },
             { assertEquals("jdbcUrl", config.jdbcUrl) },
             { assertEquals("username", config.username) },
             { assertEquals("password", config.password) },
@@ -72,7 +71,6 @@ internal class DefaultHikariCPConfigurationTest {
             { assertEquals(false, config.isRegisterMbeans) },
             { assertEquals("catalog", config.catalog) },
             { assertEquals("connectionInitSql", config.connectionInitSql) },
-            { assertEquals("io.heapy.komodo.datasource.hikaricp.DefaultHikariConnectionPoolConfiguration", config.driverClassName) },
             { assertEquals("transactionIsolation", config.transactionIsolation) },
             { assertEquals(5_000, config.validationTimeout) },
             { assertEquals(6_000, config.leakDetectionThreshold) },

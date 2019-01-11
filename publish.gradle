@@ -1,3 +1,5 @@
+// https://github.com/bentolor/gradle-maven-multimodule-kotlindsl
+
 apply(plugin: "maven-publish")
 apply(plugin: "java-library")
 apply(plugin: "com.jfrog.bintray")
