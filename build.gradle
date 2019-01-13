@@ -1,6 +1,6 @@
 plugins {
     id("jacoco")
-    id("org.jetbrains.kotlin.jvm").version("1.3.0").apply(false)
+    id("org.jetbrains.kotlin.jvm").version("1.3.11").apply(false)
     id("io.spring.dependency-management").version("1.0.6.RELEASE").apply(false)
     id("com.jfrog.bintray").version("1.8.4").apply(false)
     id("org.jetbrains.dokka").version("0.9.17").apply(false)
@@ -26,10 +26,7 @@ subprojects {
         useJUnitPlatform()
 
         jacoco {
-            append = false
             destinationFile = file("$buildDir/jacoco/moduleTestsCoverage.exec")
-            includeNoLocationClasses = true
-            excludes = ['jdk.internal.*']
         }
     }
 
@@ -87,13 +84,17 @@ task jacocoMergeSubprojectResultsIntoRootOne(type: JacocoMerge) {
 task jacocoMerge(dependsOn: ['jacocoMergeSubprojectResultsIntoRootOne'])
 
 task jacocoRootReport(type: JacocoReport, dependsOn: "jacocoMerge") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    
     reports {
         xml.setEnabled(true)
         html.setEnabled(true)
         xml.setDestination(file("${buildDir}/reports/jacoco/report.xml"))
     }
-    additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
-    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
-    classDirectories = files(subprojects.sourceSets.main.output)
-    executionData = files("$buildDir/jacoco/rootTestsCoverage.exec")
+    
+    getAdditionalSourceDirs().from(files(subprojects.sourceSets.main.allSource.srcDirs))
+    getSourceDirectories().from(files(subprojects.sourceSets.main.allSource.srcDirs))
+    getClassDirectories().from(files(subprojects.sourceSets.main.output))
+    getExecutionData().from(files("$buildDir/jacoco/rootTestsCoverage.exec"))
 }
