@@ -3,7 +3,7 @@ group = "io.heapy.komodo.integration"
 apply(from = "$rootDir/publish.gradle")
 
 dependencies {
-    implementation(project(":komodo-integration:komodo-logging"))
+    implementation(project(":komodo-logging"))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

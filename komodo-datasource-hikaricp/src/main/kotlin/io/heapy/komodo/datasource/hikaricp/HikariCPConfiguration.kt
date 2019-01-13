@@ -2,7 +2,7 @@ package io.heapy.komodo.datasource.hikaricp
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.metrics.MetricsTrackerFactory
-import io.heapy.komodo.core.time.unit.Milliseconds
+import java.time.Duration
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ThreadFactory
 import javax.sql.DataSource
@@ -128,7 +128,7 @@ interface HikariCPConfiguration {
      *
      * [HikariConfig.setConnectionTimeout]
      */
-    val connectionTimeout: Milliseconds?
+    val connectionTimeout: Duration?
 
     /**
      * This property controls the maximum amount of time that a connection is
@@ -145,7 +145,7 @@ interface HikariCPConfiguration {
      *
      * [HikariConfig.setIdleTimeout]
      */
-    val idleTimeout: Milliseconds?
+    val idleTimeout: Duration?
 
     /**
      * This property controls the maximum lifetime of a connection in the
@@ -161,7 +161,7 @@ interface HikariCPConfiguration {
      *
      * [HikariConfig.setMaxLifetime]
      */
-    val maxLifetime: Milliseconds?
+    val maxLifetime: Duration?
 
     /**
      * **If your driver supports JDBC4 we strongly recommend not setting this
@@ -230,7 +230,7 @@ interface HikariCPConfiguration {
 
     val poolName: String?
 
-    val initializationFailTimeout: Milliseconds?
+    val initializationFailTimeout: Duration?
 
     val isolateInternalQueries: Boolean?
     val allowPoolSuspension: Boolean?
@@ -242,8 +242,8 @@ interface HikariCPConfiguration {
     val driverClassName: String?
     val transactionIsolation: String?
 
-    val validationTimeout: Milliseconds?
-    val leakDetectionThreshold: Milliseconds?
+    val validationTimeout: Duration?
+    val leakDetectionThreshold: Duration?
 
     val schema: String?
     val threadFactory: ThreadFactory?
@@ -257,9 +257,9 @@ interface HikariCPConfiguration {
         password?.let(it::setPassword)
 
         autoCommit?.let(it::setAutoCommit)
-        connectionTimeout?.millis?.let(it::setConnectionTimeout)
-        idleTimeout?.millis?.let(it::setIdleTimeout)
-        maxLifetime?.millis?.let(it::setMaxLifetime)
+        connectionTimeout?.toMillis()?.let(it::setConnectionTimeout)
+        idleTimeout?.toMillis()?.let(it::setIdleTimeout)
+        maxLifetime?.toMillis()?.let(it::setMaxLifetime)
 
         connectionTestQuery?.let(it::setConnectionTestQuery)
         minimumIdle?.let(it::setMinimumIdle)
@@ -271,7 +271,7 @@ interface HikariCPConfiguration {
 
         poolName?.let(it::setPoolName)
 
-        initializationFailTimeout?.millis?.let(it::setInitializationFailTimeout)
+        initializationFailTimeout?.toMillis()?.let(it::setInitializationFailTimeout)
 
         isolateInternalQueries?.let(it::setIsolateInternalQueries)
         allowPoolSuspension?.let(it::setAllowPoolSuspension)
@@ -283,8 +283,8 @@ interface HikariCPConfiguration {
         driverClassName?.let(it::setDriverClassName)
         transactionIsolation?.let(it::setTransactionIsolation)
 
-        validationTimeout?.millis?.let(it::setValidationTimeout)
-        leakDetectionThreshold?.millis?.let(it::setLeakDetectionThreshold)
+        validationTimeout?.toMillis()?.let(it::setValidationTimeout)
+        leakDetectionThreshold?.toMillis()?.let(it::setLeakDetectionThreshold)
 
         schema?.let(it::setSchema)
         threadFactory?.let(it::setThreadFactory)

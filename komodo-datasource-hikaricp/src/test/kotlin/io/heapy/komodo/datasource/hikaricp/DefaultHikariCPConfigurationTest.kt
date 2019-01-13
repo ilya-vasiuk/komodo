@@ -1,11 +1,10 @@
 package io.heapy.komodo.datasource.hikaricp
 
-import io.heapy.komodo.core.time.unit.Seconds
-import io.heapy.komodo.core.time.unit.toMillis
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
+import java.time.Duration
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ThreadFactory
 import javax.sql.DataSource
@@ -29,14 +28,14 @@ internal class DefaultHikariCPConfigurationTest {
             username = "username",
             password = "password",
             autoCommit = false,
-            connectionTimeout = Seconds(1).toMillis(),
-            idleTimeout = Seconds(2).toMillis(),
-            maxLifetime = Seconds(3).toMillis(),
+            connectionTimeout = Duration.ofSeconds(1),
+            idleTimeout = Duration.ofSeconds(2),
+            maxLifetime = Duration.ofSeconds(3),
             connectionTestQuery = "connectionTestQuery",
             minimumIdle = 1,
             maximumPoolSize = 2,
             poolName = "poolName",
-            initializationFailTimeout = Seconds(4).toMillis(),
+            initializationFailTimeout = Duration.ofSeconds(4),
             isolateInternalQueries = false,
             readOnly = true,
             registerMbeans = false,
@@ -44,8 +43,8 @@ internal class DefaultHikariCPConfigurationTest {
             connectionInitSql = "connectionInitSql",
             driverClassName = null,
             transactionIsolation = "transactionIsolation",
-            validationTimeout = Seconds(5).toMillis(),
-            leakDetectionThreshold = Seconds(6).toMillis(),
+            validationTimeout = Duration.ofSeconds(5),
+            leakDetectionThreshold = Duration.ofSeconds(6),
             schema = "schema",
             threadFactory = threadFactory,
             scheduledExecutor = scheduledExecutor

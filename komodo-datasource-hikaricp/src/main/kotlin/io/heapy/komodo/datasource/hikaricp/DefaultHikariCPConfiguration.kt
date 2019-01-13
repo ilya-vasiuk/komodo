@@ -1,7 +1,7 @@
 package io.heapy.komodo.datasource.hikaricp
 
 import com.zaxxer.hikari.metrics.MetricsTrackerFactory
-import io.heapy.komodo.core.time.unit.Milliseconds
+import java.time.Duration
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ThreadFactory
 import javax.sql.DataSource
@@ -21,9 +21,9 @@ data class DefaultHikariCPConfiguration(
     override val password: String? = null,
 
     override val autoCommit: Boolean? = null,
-    override val connectionTimeout: Milliseconds? = null,
-    override val idleTimeout: Milliseconds? = null,
-    override val maxLifetime: Milliseconds? = null,
+    override val connectionTimeout: Duration? = null,
+    override val idleTimeout: Duration? = null,
+    override val maxLifetime: Duration? = null,
 
     override val connectionTestQuery: String? = null,
     override val minimumIdle: Int? = null,
@@ -35,7 +35,7 @@ data class DefaultHikariCPConfiguration(
 
     override val poolName: String? = null,
 
-    override val initializationFailTimeout: Milliseconds? = null,
+    override val initializationFailTimeout: Duration? = null,
 
     override val isolateInternalQueries: Boolean? = null,
     override val allowPoolSuspension: Boolean? = null,
@@ -47,8 +47,8 @@ data class DefaultHikariCPConfiguration(
     override val driverClassName: String? = null,
     override val transactionIsolation: String? = null,
 
-    override val validationTimeout: Milliseconds? = null,
-    override val leakDetectionThreshold: Milliseconds? = null,
+    override val validationTimeout: Duration? = null,
+    override val leakDetectionThreshold: Duration? = null,
 
     override val schema: String? = null,
     override val threadFactory: ThreadFactory? = null,
