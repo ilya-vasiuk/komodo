@@ -1,6 +1,6 @@
 package io.heapy.komodo.junit.engine
 
-import io.heapy.integration.logging.logger
+import io.heapy.logging.logger
 import org.junit.platform.engine.EngineDiscoveryRequest
 import org.junit.platform.engine.ExecutionRequest
 import org.junit.platform.engine.TestDescriptor

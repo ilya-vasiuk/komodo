@@ -1,8 +1,7 @@
 package io.heapy.komodo.scripting
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.withContext
 import org.jetbrains.kotlin.script.jsr223.KotlinJsr223JvmLocalScriptEngineFactory
 import java.io.InputStream
 import kotlin.coroutines.CoroutineContext
@@ -20,16 +19,16 @@ class DefaultKotlinScriptCompiler(
     private val scriptEngine = factory.scriptEngine
 
     override suspend fun <T> execute(inputStream: InputStream): T {
-        return GlobalScope.async(context = context) {
+        return withContext(context = context) {
             @Suppress("UNCHECKED_CAST")
             scriptEngine.eval(inputStream.reader()) as T
-        }.await()
+        }
     }
 
     override suspend fun <T> execute(script: String): T {
-        return GlobalScope.async(context = context) {
+        return withContext(context = context) {
             @Suppress("UNCHECKED_CAST")
             scriptEngine.eval(script) as T
-        }.await()
+        }
     }
 }

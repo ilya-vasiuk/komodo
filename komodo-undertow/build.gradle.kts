@@ -1,7 +1,12 @@
-dependencies {
-    compile(project(":komodo-di"))
+group = "io.heapy.komodo"
 
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    compile("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
-    compile("io.undertow:undertow-core")
+apply(from = "$rootDir/publish.gradle")
+
+dependencies {
+    // kotlin & coroutines
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
+
+    // undertow
+    api("io.undertow:undertow-core")
 }
