@@ -12,7 +12,7 @@ script:
   - ./gradlew check :jacocoRootReport
 
 after_success:
-  - bash ./.ci/codecov-0b37652.sh
+  - bash ./.ci/codecov-8a28df4.sh
 
 deploy:
   - provider: script
