@@ -1,6 +1,8 @@
 package io.heapy.komodo.junit.engine
 
+import io.heapy.komodo.junit.engine.EnterpriseEngine.Companion.TEST_ENGINE_ID
 import io.heapy.logging.logger
+import kotlinx.coroutines.runBlocking
 import org.junit.platform.engine.EngineDiscoveryRequest
 import org.junit.platform.engine.ExecutionRequest
 import org.junit.platform.engine.TestDescriptor
@@ -9,12 +11,14 @@ import org.junit.platform.engine.TestExecutionResult
 import org.junit.platform.engine.TestSource
 import org.junit.platform.engine.TestTag
 import org.junit.platform.engine.UniqueId
-import org.junit.platform.engine.discovery.ClassSelector
+import org.junit.platform.engine.discovery.MethodSelector
 import org.junit.platform.engine.support.descriptor.ClassSource
 import org.junit.platform.engine.support.descriptor.EngineDescriptor
 import java.util.Optional
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
+import kotlin.reflect.full.callSuspend
+import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.declaredFunctions
 
 /**
@@ -23,7 +27,7 @@ import kotlin.reflect.full.declaredFunctions
  * @author Ruslan Ibragimov
  * @since 1.0.0
  */
-class KotlinCoroutinesTestEngine : TestEngine {
+class EnterpriseEngine : TestEngine {
     init {
         LOGGER.info("KotlinCoroutinesTestEngine created")
     }
@@ -32,15 +36,12 @@ class KotlinCoroutinesTestEngine : TestEngine {
         val engine = request.rootTestDescriptor
         val listener = request.engineExecutionListener
         listener.executionStarted(engine)
-
-        for (testClass in engine.children) {
-            listener.executionStarted(testClass)
-            for (testMethod in testClass.children) {
-                listener.executionStarted(testMethod)
-                val result = executeDirect(testMethod as SuspendMethod)
-                listener.executionFinished(testMethod, result)
+        if (engine is CoroutinesClassTestDescriptor) {
+            engine.methods.forEach {
+                runBlocking {
+                    it.callSuspend(engine.clazz.createInstance())
+                }
             }
-            listener.executionFinished(testClass, TestExecutionResult.successful())
         }
         listener.executionFinished(engine, TestExecutionResult.successful())
     }
@@ -57,26 +58,32 @@ class KotlinCoroutinesTestEngine : TestEngine {
 
     override fun getId() = TEST_ENGINE_ID
 
-    override fun discover(discoveryRequest: EngineDiscoveryRequest, uniqueId: UniqueId): TestDescriptor {
-        SuspendMethod(uniqueId)
-        return discoveryRequest.getSelectorsByType(ClassSelector::class.java)
+    override fun discover(
+        discoveryRequest: EngineDiscoveryRequest,
+        uniqueId: UniqueId
+    ): TestDescriptor {
+        return discoveryRequest.getSelectorsByType(MethodSelector::class.java)
             .map { selector ->
                 selector to selector.javaClass.kotlin.declaredFunctions.filter { func -> func.isSuspend }
             }
-            .map { CoroutinesTestDescriptor(clazz = it.first.javaClass.kotlin, methods = it.second) }
+            .map { CoroutinesClassTestDescriptor(clazz = it.first.javaClass.kotlin, methods = it.second) }
             .single()
     }
 
+    override fun getGroupId(): Optional<String> {
+        return Optional.of("io.heapy.komodo.junit.engine")
+    }
+
     companion object {
-        private val LOGGER = logger<KotlinCoroutinesTestEngine>()
+        private val LOGGER = logger<EnterpriseEngine>()
+        const val TEST_ENGINE_ID = "KotlinCoroutines"
     }
 }
 
-const val TEST_ENGINE_ID = "KotlinCoroutines"
 
 class SuspendMethod(uniqueId: UniqueId) : EngineDescriptor(uniqueId, "Kotlin Coroutines Engine")
 
-class CoroutinesTestDescriptor(
+class CoroutinesClassTestDescriptor(
     val clazz: KClass<*>,
     val methods: List<KFunction<*>>
 ) : TestDescriptor {
