@@ -27,7 +27,7 @@ I will happily accept your pull request if it:
 
 - has tests;
 - solve particular, documented and agreed problem (issue);
-- does not break backwards compatibility.
+- does not break backwards compatibility (until it discussed in issue).
 
 See [Collective Code Construction Contract](./Collective%20Code%20Construction%20Contract.md) for details.
 
