@@ -1,5 +1,17 @@
+import io.heapy.Libs.kotlinReflect
+
+group = "io.heapy.komodo"
+
+plugins {
+    id("io.heapy.build.jvm")
+    id("io.heapy.publish")
+}
+
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("com.google.inject:guice:4.2.0")
-    implementation("org.springframework:spring-context:5.0.5.RELEASE")
+    implementation(kotlinReflect.dep())
+
+    implementation("com.google.inject:guice:4.2.2")
+    implementation("org.springframework:spring-context:5.2.0.RELEASE")
+    implementation("org.koin:koin-core:2.0.1")
+    implementation("org.koin:koin-core-ext:2.0.1")
 }
