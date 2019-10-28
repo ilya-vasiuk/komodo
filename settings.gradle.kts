@@ -1,13 +1,3 @@
-import io.heapy.Extensions.kotlinRepositories
-
-pluginManagement {
-    repositories {
-        jcenter()
-        gradlePluginPortal()
-        kotlinRepositories()
-    }
-}
-
 rootProject.name = "komodo"
 
 fun modules(vararg paths: String) {

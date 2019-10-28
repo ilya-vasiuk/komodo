@@ -1,7 +1,10 @@
 package io.heapy
 
+import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
+import java.util.Properties
+
 object Libs {
-    const val kotlinVersion = "1.3.50"
+    val kotlinVersion = pluginKotlinVersion
     val kotlinStdlib = Lib("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", kotlinVersion)
     val kotlinReflect = Lib("org.jetbrains.kotlin", "kotlin-reflect", kotlinVersion)
     val kotlinScriptUtil = Lib("org.jetbrains.kotlin", "kotlin-script-util", kotlinVersion)
@@ -58,6 +61,15 @@ object Libs {
         hikariCP
     )
 }
+
+private val pluginKotlinVersion: String
+    get() {
+        val props = Properties()
+        val inputStream = KotlinPluginWrapper::class.java
+            .classLoader?.getResourceAsStream("project.properties")!!
+        inputStream.use { props.load(it) }
+        return props["project.version"] as String
+    }
 
 data class Lib(
     val group: String,
