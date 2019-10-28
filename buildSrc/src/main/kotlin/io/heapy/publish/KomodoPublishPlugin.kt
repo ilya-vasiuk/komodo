@@ -115,7 +115,7 @@ class KomodoPublishPlugin : Plugin<Project> {
                     name = "komodo"
                     websiteUrl = "https://heapy.io/komodo"
                     publish = isDev
-                    setLicenses("LGPL-3.0-or-later")
+                    setLicenses("LGPL-3.0")
                     vcsUrl = "https://github.com/Heapy/komodo"
                     setPublications("komodo")
                     publicDownloadNumbers = true
