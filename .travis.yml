@@ -19,6 +19,7 @@ deploy:
     script: ./gradlew bintrayUpload
     skip_cleanup: true
     on:
+      all_branches: true
       repo: Heapy/komodo
       jdk: openjdk8
 
