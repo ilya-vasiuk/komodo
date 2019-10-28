@@ -22,7 +22,9 @@ class KomodoVersionPlugin : Plugin<Project> {
             // Branch not master, and it's not PR
             // Branch master, and it's PR
 
-            project.version = "$currentVersion-development-$buildNumber"
+            (project.subprojects + project).forEach {
+                it.version = "$currentVersion-development-$buildNumber"
+            }
         }
 
         println("Project version: ${project.version}")
